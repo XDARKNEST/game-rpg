@@ -1,152 +1,141 @@
-// === PLAYER DATA ===
+// ==== Data Player ====
 let player = {
   name: "Hero",
-  level: 1,
-  exp: 0,
   hp: 100,
   maxHp: 100,
-  mp: 30,
-  maxMp: 30,
   atk: 10,
   def: 5,
   gold: 50,
+  level: 1,
+  exp: 0,
   inventory: ["Potion"],
-  quest: []
+  quest: "Kalahkan 3 Orc",
+  location: "Desa Awal"
 };
 
-// === ENEMY DATA ===
-let enemies = [
-  {name: "Goblin", hp: 30, atk: 5, def: 2, gold: 10, exp: 10},
-  {name: "Orc", hp: 50, atk: 8, def: 3, gold: 20, exp: 20},
-  {name: "Dragon", hp: 200, atk: 20, def: 10, gold: 100, exp: 100}
-];
-
-// === UTILS ===
-function showPanel(id) {
-  document.querySelectorAll(".panel").forEach(p => p.style.display = "none");
-  document.getElementById(id + "-panel").style.display = "block";
-  updateStats();
-}
-
-function updateStats() {
-  document.getElementById("playerStats").innerText =
-    `Lv.${player.level} | HP ${player.hp}/${player.maxHp} | MP ${player.mp}/${player.maxMp}
-     ATK:${player.atk} DEF:${player.def} | Gold:${player.gold} | EXP:${player.exp}`;
-  updateInventory();
-}
-
-function updateInventory() {
-  let list = document.getElementById("inventoryList");
-  list.innerHTML = "";
-  player.inventory.forEach(item => {
-    let li = document.createElement("li");
-    li.textContent = item;
-    list.appendChild(li);
-  });
-}
-
-// === BATTLE ===
-function startBattle() {
-  let enemy = {...enemies[Math.floor(Math.random()*enemies.length)]};
-  log(`⚔️ Kamu melawan ${enemy.name}!`);
-  battleTurn(enemy);
-}
-
-function battleTurn(enemy) {
-  while (enemy.hp > 0 && player.hp > 0) {
-    let dmg = Math.max(0, player.atk - enemy.def);
-    enemy.hp -= dmg;
-    log(`Kamu menyerang ${enemy.name} -${dmg} HP`);
-
-    if (enemy.hp <= 0) {
-      log(`${enemy.name} kalah!`);
-      player.gold += enemy.gold;
-      player.exp += enemy.exp;
-      levelUpCheck();
-      break;
-    }
-
-    let edmg = Math.max(0, enemy.atk - player.def);
-    player.hp -= edmg;
-    log(`${enemy.name} menyerangmu -${edmg} HP`);
-    if (player.hp <= 0) {
-      log("❌ Kamu kalah! Respawn di Town.");
-      player.hp = player.maxHp;
-      player.mp = player.maxMp;
-      break;
-    }
-  }
-  updateStats();
-}
-
-function log(msg) {
-  let b = document.getElementById("battleLog");
-  b.innerHTML += msg + "<br>";
-  b.scrollTop = b.scrollHeight;
-}
-
-// === LEVEL UP ===
-function levelUpCheck() {
-  if (player.exp >= player.level * 50) {
-    player.exp = 0;
-    player.level++;
-    player.maxHp += 20;
-    player.maxMp += 10;
-    player.atk += 5;
-    player.def += 3;
-    log(`🎉 Naik level! Sekarang Lv.${player.level}`);
-  }
-}
-
-// === MAP ===
-function travel(area) {
-  document.getElementById("mapStatus").innerText = `Kamu berada di ${area}`;
-  log(`🚶 Pergi ke ${area}`);
-}
-
-// === SHOP ===
-let shopStock = ["Potion", "Hi-Potion", "Mana Potion"];
-function loadShop() {
-  let s = document.getElementById("shopItems");
-  s.innerHTML = "";
-  shopStock.forEach(item => {
-    let btn = document.createElement("button");
-    btn.textContent = `Beli ${item} (10G)`;
-    btn.onclick = () => buyItem(item);
-    s.appendChild(btn);
-  });
-}
-
-function buyItem(item) {
-  if (player.gold >= 10) {
-    player.gold -= 10;
-    player.inventory.push(item);
-    updateInventory();
-    updateStats();
-    log(`🛒 Membeli ${item}`);
-  } else {
-    log("Gold tidak cukup!");
-  }
-}
-
-// === CHEAT SYSTEM ===
-function unlockCheat() {
-  let code = document.getElementById("cheatCode").value;
+// ==== Cheat System ====
+let cheatUnlocked = false;
+function activateCheat() {
+  let code = document.getElementById("cheatInput").value;
   if (code === "DRAKS@1122") {
-    document.getElementById("cheatBtn").style.display = "inline-block";
-    alert("✅ Developer Mode Unlocked!");
+    cheatUnlocked = true;
+    log("🔥 Cheat aktif! Semua fitur development terbuka.");
   } else {
-    alert("❌ Kode salah!");
+    log("❌ Kode salah!");
   }
 }
 
-function cheatGold() { player.gold += 1000; updateStats(); log("💰 Cheat Gold +1000"); }
-function cheatExp() { player.exp += 1000; levelUpCheck(); updateStats(); log("⭐ Cheat EXP +1000"); }
-function cheatHeal() { player.hp = player.maxHp; player.mp = player.maxMp; updateStats(); log("❤️ Cheat Heal Full"); }
-function cheatItem() { player.inventory.push("Rare Sword of Dev"); updateInventory(); log("🎁 Cheat Rare Item didapat!"); }
-function cheatLevel() { player.level++; updateStats(); log("⬆️ Cheat Level Naik!"); }
+// ==== Panel Show ====
+function showPanel(panel) {
+  document.querySelectorAll(".panel").forEach(p => {
+    if (p.id && p.id !== panel) p.style.display = "none";
+  });
+  document.getElementById(panel).style.display = "block";
+  renderPanel(panel);
+}
 
-// === INIT ===
-updateStats();
-loadShop();
-showPanel('stats');
+// ==== Render Panels ====
+function renderPanel(panel) {
+  if (panel === "stats") {
+    document.getElementById("stats").innerHTML = `
+      <h3>Stats</h3>
+      <p>Nama: ${player.name}</p>
+      <p>HP: ${player.hp}/${player.maxHp}</p>
+      <p>Atk: ${player.atk} | Def: ${player.def}</p>
+      <p>Gold: ${player.gold}</p>
+      <p>Level: ${player.level} (EXP: ${player.exp})</p>
+    `;
+  }
+
+  if (panel === "inventory") {
+    document.getElementById("inventory").innerHTML = `
+      <h3>Inventory</h3>
+      <p>${player.inventory.join(", ") || "Kosong"}</p>
+    `;
+  }
+
+  if (panel === "quest") {
+    document.getElementById("quest").innerHTML = `
+      <h3>Quest</h3>
+      <p>${player.quest}</p>
+    `;
+  }
+
+  if (panel === "map") {
+    document.getElementById("map").innerHTML = `
+      <h3>Peta</h3>
+      <p>Lokasi: ${player.location}</p>
+      <button onclick="travel('Hutan Orc')">➡️ Pergi ke Hutan Orc</button>
+    `;
+  }
+
+  if (panel === "shop") {
+    document.getElementById("shop").innerHTML = `
+      <h3>Toko</h3>
+      <button onclick="buyItem('Potion', 20)">Beli Potion (20 gold)</button>
+    `;
+  }
+
+  if (panel === "battle") {
+    document.getElementById("battle").innerHTML = `
+      <h3>Battle</h3>
+      <button onclick="battleEnemy()">Cari Musuh</button>
+    `;
+  }
+}
+
+// ==== Sistem Battle Sederhana ====
+function battleEnemy() {
+  let enemy = { name: "Orc", hp: 30, atk: 6 };
+  log(`⚔️ Kamu bertemu ${enemy.name}!`);
+
+  while (player.hp > 0 && enemy.hp > 0) {
+    // Player serang
+    enemy.hp -= Math.max(1, player.atk - 2);
+    log(`🗡️ Kamu menyerang ${enemy.name}, HP musuh: ${enemy.hp}`);
+    if (enemy.hp <= 0) {
+      log(`🎉 ${enemy.name} kalah!`);
+      player.exp += 10;
+      player.gold += 15;
+      break;
+    }
+
+    // Enemy serang
+    player.hp -= Math.max(1, enemy.atk - player.def);
+    log(`💥 ${enemy.name} menyerangmu, HP kamu: ${player.hp}`);
+    if (player.hp <= 0) {
+      log("💀 Kamu kalah...");
+      break;
+    }
+  }
+  renderPanel("stats");
+}
+
+// ==== Travel ====
+function travel(loc) {
+  player.location = loc;
+  log(`🚶 Kamu pergi ke ${loc}.`);
+  renderPanel("map");
+}
+
+// ==== Shop ====
+function buyItem(item, price) {
+  if (player.gold >= price) {
+    player.gold -= price;
+    player.inventory.push(item);
+    log(`🛒 Kamu membeli ${item}.`);
+  } else {
+    log("❌ Gold tidak cukup!");
+  }
+  renderPanel("shop");
+}
+
+// ==== Log System ====
+function log(msg) {
+  let box = document.getElementById("log");
+  box.innerHTML += msg + "<br>";
+  box.scrollTop = box.scrollHeight;
+}
+
+// ==== Init ====
+showPanel("stats");
