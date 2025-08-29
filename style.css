@@ -1,56 +1,83 @@
 body {
+  background: #111;
+  color: #fff;
   font-family: Arial, sans-serif;
-  background: #222;
-  color: #eee;
-  text-align: center;
+  margin: 0;
   padding: 20px;
 }
 
+/* Container mobile */
+.container {
+  width: 480px;        /* fixed width, kayak game mobile */
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  background: #1a1a1a;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+}
+
 h1 {
+  text-align: center;
   color: gold;
+  margin-bottom: 20px;
 }
 
-nav button {
-  margin: 5px;
-  padding: 10px;
+.nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+
+.nav button {
+  flex: 1 1 30%;
+  padding: 8px;
   border: none;
-  border-radius: 5px;
-  background: #444;
-  color: #fff;
+  border-radius: 6px;
   cursor: pointer;
+  background: #333;
+  color: #fff;
+  transition: 0.2s;
 }
 
-nav button:hover {
-  background: #666;
+.nav button:hover {
+  background: #555;
 }
 
 .panel {
-  display: none;
-  margin-top: 20px;
-  padding: 10px;
-  border: 2px solid #555;
+  background: #222;
   border-radius: 8px;
-  background: #333;
+  padding: 12px;
+  margin-bottom: 12px;
+  text-align: center;
 }
 
-#battleLog {
-  background: #111;
-  padding: 10px;
-  height: 150px;
+.log {
+  max-height: 180px;
   overflow-y: auto;
-  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: left;
 }
 
-#cheat-panel {
-  background: #111;
-  border: 2px solid #0f0;
-  color: #0f0;
+input {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 5px;
+  width: 65%;
 }
 
-#cheat-unlock {
-  margin: 20px;
+button.unlock {
+  background: darkred;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
-#cheat-unlock input {
-  padding: 5px;
+button.unlock:hover {
+  background: red;
 }
