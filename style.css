@@ -1,0 +1,56 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #222;
+  color: #eee;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  color: gold;
+}
+
+nav button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #444;
+  color: #fff;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background: #666;
+}
+
+.panel {
+  display: none;
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid #555;
+  border-radius: 8px;
+  background: #333;
+}
+
+#battleLog {
+  background: #111;
+  padding: 10px;
+  height: 150px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+#cheat-panel {
+  background: #111;
+  border: 2px solid #0f0;
+  color: #0f0;
+}
+
+#cheat-unlock {
+  margin: 20px;
+}
+
+#cheat-unlock input {
+  padding: 5px;
+}
