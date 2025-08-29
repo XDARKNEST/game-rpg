@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>RPG News</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>⚔️ RPG 100 Fitur</h1>
+
+  <nav>
+    <button onclick="showPanel('stats')">📊 Stats</button>
+    <button onclick="showPanel('battle')">⚔️ Battle</button>
+    <button onclick="showPanel('inventory')">🎒 Inventory</button>
+    <button onclick="showPanel('quest')">📜 Quest</button>
+    <button onclick="showPanel('map')">🗺️ Map</button>
+    <button onclick="showPanel('shop')">🏪 Shop</button>
+    <button id="cheatBtn" style="display:none;" onclick="showPanel('cheat')">💻 Cheat</button>
+  </nav>
+
+  <!-- Panel Stats -->
+  <section id="stats-panel" class="panel">
+    <h2>Stats</h2>
+    <p id="playerStats"></p>
+  </section>
+
+  <!-- Panel Battle -->
+  <section id="battle-panel" class="panel">
+    <h2>Battle</h2>
+    <div id="battleLog"></div>
+    <button onclick="startBattle()">Cari Musuh</button>
+  </section>
+
+  <!-- Panel Inventory -->
+  <section id="inventory-panel" class="panel">
+    <h2>Inventory</h2>
+    <ul id="inventoryList"></ul>
+  </section>
+
+  <!-- Panel Quest -->
+  <section id="quest-panel" class="panel">
+    <h2>Quest</h2>
+    <ul id="questList"></ul>
+  </section>
+
+  <!-- Panel Map -->
+  <section id="map-panel" class="panel">
+    <h2>Map</h2>
+    <p id="mapStatus">Kamu berada di Town.</p>
+    <button onclick="travel('Forest')">🌲 Pergi ke Forest</button>
+    <button onclick="travel('Cave')">⛏️ Pergi ke Cave</button>
+    <button onclick="travel('Castle')">🏰 Pergi ke Castle</button>
+  </section>
+
+  <!-- Panel Shop -->
+  <section id="shop-panel" class="panel">
+    <h2>Shop</h2>
+    <div id="shopItems"></div>
+  </section>
+
+  <!-- Panel Cheat -->
+  <section id="cheat-panel" class="panel">
+    <h2>Developer Mode</h2>
+    <div>
+      <button onclick="cheatGold()">💰 +1000 Gold</button>
+      <button onclick="cheatExp()">⭐ +1000 EXP</button>
+      <button onclick="cheatHeal()">❤️ Full HP/MP</button>
+      <button onclick="cheatItem()">🎁 Rare Item</button>
+      <button onclick="cheatLevel()">⬆️ Naik Level</button>
+    </div>
+  </section>
+
+  <!-- Input Cheat Code -->
+  <div id="cheat-unlock">
+    <input type="text" id="cheatCode" placeholder="Masukkan kode cheat">
+    <button onclick="unlockCheat()">🔑 Unlock</button>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
